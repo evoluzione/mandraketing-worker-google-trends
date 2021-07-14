@@ -126,8 +126,8 @@ gtrend_regline_chart = chart_predict + chart_predict.transform_regression('date'
 # Full Chart
 full_df = pd.merge(total_predict, total_trend, left_on='date', right_on='date', how='left')
 #full_df
-a = alt.Chart(full_df).mark_area(opacity=0.8, color='#25f4ee').encode(x='date', y='trend')
-b = alt.Chart(full_df).mark_area(opacity=0.6, color='#fe2c55').encode(x='date', y='predict')
+a = alt.Chart(full_df).mark_area(opacity=0.6, color='#25f4ee').encode(x='date', y='trend')
+b = alt.Chart(full_df).mark_area(opacity=1, color='#fe2c55').encode(x='date', y='predict')
 c = alt.layer(b, a).properties(title="Forecast and Trend Comparison")
 st.altair_chart(c, use_container_width=True)
 
