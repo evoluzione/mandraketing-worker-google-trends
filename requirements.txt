@@ -1,0 +1,6 @@
+SQLAlchemy
+altair
+pandas
+psycopg2-binary==2.9.1
+numpy
+scipy==1.6.3
