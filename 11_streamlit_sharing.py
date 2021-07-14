@@ -129,7 +129,10 @@ full_df = pd.merge(total_predict, total_trend, left_on='date', right_on='date', 
 a = alt.Chart(full_df).mark_area(opacity=0.6, color='#25f4ee').encode(x='date', y='trend')
 b = alt.Chart(full_df).mark_area(opacity=1, color='#fe2c55').encode(x='date', y='predict')
 c = alt.layer(b, a).properties(title="Forecast and Trend Comparison")
+
+st.write('Legenda: azzurro Google Trends, rosso Previsionale')
 st.altair_chart(c, use_container_width=True)
+
 
 st.write('---------------------------------------------------')
 
