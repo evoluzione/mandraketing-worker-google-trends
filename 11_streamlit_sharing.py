@@ -8,6 +8,8 @@ from datetime import date
 
 import toml
 #data_toml = toml.load("config.toml")
+accurancy = st.secrets['accurancy']
+
 range_forecast = st.secrets['range_forecast']
 greater_than_trend = st.secrets['greater_than_trend']
 greater_than_feracast = st.secrets['greater_than_feracast']
@@ -142,7 +144,7 @@ st.write('---------------------------------------------------')
 
 # creazione df geerale
 engine_table = create_engine(postgre_complete_url_table)
-df_general_table = pd.read_sql_query(f"SELECT * FROM wtforecastdetails WHERE site = '{site_url}' AND type_gt_or_forecast = 'type_gt';",con=engine_table)
+df_general_table = pd.read_sql_query(f"SELECT * FROM wtforecastdetails WHERE site = '{site_url}' AND type_gt_or_forecast = 'type_gt' AND gt_accuracy <= {accurancy};",con=engine_table)
 
 st.write('Trend Attuali')
 df_last_trend = df_general_table.copy()
@@ -163,7 +165,7 @@ st.write('---------------------------------------------------')
 
 
 engine_table = create_engine(postgre_complete_url_table)
-df_general_table = pd.read_sql_query(f"SELECT * FROM wtforecastdetails WHERE site = '{site_url}' AND type_gt_or_forecast = 'type_forecast';",con=engine_table)
+df_general_table = pd.read_sql_query(f"SELECT * FROM wtforecastdetails WHERE site = '{site_url}' AND type_gt_or_forecast = 'type_forecast' AND gt_accuracy <= {accurancy};",con=engine_table)
 
 st.write('Trend Futuri')
 df_last_forecast = df_general_table.copy()

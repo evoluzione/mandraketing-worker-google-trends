@@ -25,7 +25,8 @@ accurancy = data_toml['accurancy']
 
 
 engine = create_engine(postgre_complete_url)
-df = pd.read_sql_query(f"SELECT * FROM wtforecast WHERE site = '{site_url}' AND gt_accuracy <= {accurancy}",con=engine)
+#df = pd.read_sql_query(f"SELECT * FROM wtforecast WHERE site = '{site_url}' AND gt_accuracy <= {accurancy}",con=engine)
+df = pd.read_sql_query(f"SELECT * FROM wtforecast WHERE site = '{site_url}' AND gt_dates IS NOT NULL",con=engine)
 #print(df)
 
 data_for_prophet = df[['keyword', 'gt_dates']].copy()
