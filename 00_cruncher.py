@@ -42,7 +42,6 @@ def file_6():
     cmd.communicate()
 
 
-
 #delete_all()
 
 file_1()
