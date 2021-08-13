@@ -18,20 +18,13 @@ password = data_toml['password']
 port= data_toml['port']
 postgre_complete_url = data_toml['postgre_complete_url']
 
-host_general = data_toml['host_general']
-database_general = data_toml['database_general']
-user_general = data_toml['user_general']
-password_general = data_toml['password_general']
-port_general = data_toml['port_general']
-postgre_complete_url_general = data_toml['postgre_complete_url_general']
-
 # create row in database
 print(site_url)
 print(type(site_url))
 
 #
 # Creazione DF generale
-engine = create_engine(postgre_complete_url_general)
+engine = create_engine(postgre_complete_url)
 df_general = pd.read_sql_query(f"SELECT * FROM wtforecastgeneral WHERE site = '{site_url}';",con=engine)
 print(df_general)
 domain_already_exist = df_general.loc[df_general['site'].str.contains(f"{site_url}", case=False)]
@@ -39,7 +32,7 @@ print(domain_already_exist)
 if domain_already_exist.empty:
      # insert code here
     conn = psycopg2.connect(
-        database=database_general, user=user_general, password=password_general, host=host_general, port=port_general
+        database=database, user=user, password=password, host=host, port=port
     )
     cur = conn.cursor()
     cur.execute("""INSERT INTO wtforecastgeneral(site) VALUES(%s) ;""", (site_url,))
@@ -99,7 +92,7 @@ dict_to_sql = total_trend.to_json(orient = 'records')
 print(dict_to_sql)
 
 conn = psycopg2.connect(
-    database=database_general, user=user_general, password=password_general, host=host_general, port=port_general
+    database=database, user=user, password=password, host=host, port=port
 )
 cur = conn.cursor()
 cur.execute(f"UPDATE wtforecastgeneral SET gt_dates = '{dict_to_sql}' WHERE site = %s", (site_url,))
@@ -153,7 +146,7 @@ dict_to_sql = total_predict.to_json(orient = 'records')
 print(dict_to_sql)
 
 conn = psycopg2.connect(
-    database=database_general, user=user_general, password=password_general, host=host_general, port=port_general
+    database=database, user=user, password=password, host=host, port=port
 )
 cur = conn.cursor()
 cur.execute(f"UPDATE wtforecastgeneral SET forecast_dates = '{dict_to_sql}' WHERE site = %s", (site_url,))

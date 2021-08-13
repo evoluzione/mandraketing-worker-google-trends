@@ -6,12 +6,14 @@ from sqlalchemy import create_engine
 import psycopg2 as pg
 from apiclient.discovery import build
 from functions_db.db_prepare_cruncher import db_prepare_cruncher
+from functions_db.db_prepare_table import db_prepare_table
 
 
 import toml
 data_toml = toml.load("config.toml")
 
-db_prepare_cruncher() 
+#db_prepare_cruncher() 
+db_prepare_table()
 
 timestr = time.strftime("%Y%m%d-%H%M%S")
 SITE_URL = data_toml['site_url']

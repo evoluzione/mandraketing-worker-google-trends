@@ -27,27 +27,29 @@ def db_prepare_cruncher():
       )
       conn.autocommit = True
       cursor = conn.cursor()
-      cursor.execute('''CREATE TABLE wtforecast (
-                     site varchar(600),
-                     keyword varchar(600),
-                     gt_parsed integer,
-                     ga_parsed integer,
-                     gt_accuracy integer,
-                     gsc_date varchar(50),
-                     gsc_device varchar(60),
-                     gsc_ctr decimal,
-                     gsc_avg_pos decimal,
-                     gsc_sum_imp integer,
-                     gsc_sum_clic integer,
-                     gsc_page varchar(1000),
-                     ga_search_volume integer,
-                     ga_competition decimal,
-                     ga_average_cpc integer,
-                     gt_dates Json,
-                     forecast_dates Json,
-                     last_trend integer,
-                     last_forecast integer
-                     );''')
+      # cursor.execute('''CREATE TABLE wtforecast (
+      #                site varchar(600),
+      #                keyword varchar(600),
+      #                gt_parsed integer,
+      #                ga_parsed integer,
+      #                gt_accuracy integer,
+      #                gsc_date varchar(50),
+      #                gsc_device varchar(60),
+      #                gsc_ctr decimal,
+      #                gsc_avg_pos decimal,
+      #                gsc_sum_imp integer,
+      #                gsc_sum_clic integer,
+      #                gsc_page varchar(1000),
+      #                ga_search_volume integer,
+      #                ga_competition decimal,
+      #                ga_average_cpc integer,
+      #                gt_dates Json,
+      #                forecast_dates Json,
+      #                last_trend integer,
+      #                last_forecast integer
+      #                );''')
+      cursor.execute('''ALTER TABLE wtforecast 
+                     ADD COLUMN column_name datatype TEXT;''')
       conn.commit()
       conn.close()
       print('database creato')
@@ -65,4 +67,4 @@ def db_prepare_cruncher():
       conn.close()
 
 
-#db_prepare_cruncher()
+db_prepare_cruncher()

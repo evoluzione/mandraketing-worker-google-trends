@@ -16,19 +16,12 @@ greater_than_feracast = st.secrets['greater_than_feracast']
 site_url = st.secrets['site_url']
 n_keywords = st.secrets['n_keywords']
 
-host = st.secrets['host_general']
-database = st.secrets['database_general']
-user = st.secrets['user_general']
-password = st.secrets['password_general']
-port= st.secrets['port_general']
-postgre_complete_url = st.secrets['postgre_complete_url_general']
-
-host_table = st.secrets['host_details']
-database_table = st.secrets['database_details']
-user_table = st.secrets['user_details']
-password_table = st.secrets['password_details']
-port_table = st.secrets['port_details']
-postgre_complete_url_table = st.secrets['postgre_complete_url_details']
+host = st.secrets['host']
+database = st.secrets['database']
+user = st.secrets['user']
+password = st.secrets['password']
+port= st.secrets['port']
+postgre_complete_url = st.secrets['postgre_complete_url']
 
 
 def _max_width_():
@@ -142,8 +135,8 @@ st.write('---------------------------------------------------')
 #
 # Tabelle generali
 
-# creazione df geerale
-engine_table = create_engine(postgre_complete_url_table)
+# creazione df generale
+engine_table = create_engine(postgre_complete_url)
 df_general_table = pd.read_sql_query(f"SELECT * FROM wtforecastdetails WHERE site = '{site_url}' AND type_gt_or_forecast = 'type_gt' AND gt_accuracy <= {accurancy};",con=engine_table)
 
 st.write('Trend Attuali')
@@ -164,7 +157,7 @@ st.markdown(get_table_download_link_csv(df_last_trend), unsafe_allow_html=True)
 st.write('---------------------------------------------------')
 
 
-engine_table = create_engine(postgre_complete_url_table)
+engine_table = create_engine(postgre_complete_url)
 df_general_table = pd.read_sql_query(f"SELECT * FROM wtforecastdetails WHERE site = '{site_url}' AND type_gt_or_forecast = 'type_forecast' AND gt_accuracy <= {accurancy};",con=engine_table)
 
 st.write('Trend Futuri')
