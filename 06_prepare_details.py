@@ -20,7 +20,7 @@ conn = psycopg2.connect(
 )
 conn.autocommit = True
 cursor = conn.cursor()
-cursor.execute(f'''DELETE FROM wtforecast WHERE "site" = '{site}';''')
+cursor.execute(f'''DELETE FROM wtforecastdetails WHERE "site" = '{site}';''')
 print('eliminate righe con dominio')
 conn.commit()
 conn.close()
