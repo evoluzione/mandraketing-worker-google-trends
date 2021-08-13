@@ -1,5 +1,5 @@
 import pandas as pd
-import os, time, subprocess, pickle
+import os, time, subprocess, pickle, psycopg2
 from datetime import datetime, timedelta
 from google_auth_oauthlib.flow import InstalledAppFlow
 from sqlalchemy import create_engine
@@ -17,6 +17,13 @@ timestr = time.strftime("%Y%m%d-%H%M%S")
 SITE_URL = data_toml['site_url']
 print(SITE_URL)
 print(timestr)
+site = data_toml['site_url']
+host = data_toml['host']
+database = data_toml['database']
+user = data_toml['user']
+password = data_toml['password']
+port= data_toml['port']
+postgre_complete_url = data_toml['postgre_complete_url']
 gsc_range_aggregate = data_toml['gsc_range_aggregate']
 gsc_country_filter = data_toml['gsc_country_filter']
 
@@ -130,5 +137,18 @@ df = df.rename(columns={'query': 'keyword', 'date': 'gsc_date'})
 df = df.rename(columns={'device': 'gsc_device', 'ctr': 'gsc_ctr'})
 df = df.rename(columns={'avg_position': 'gsc_avg_pos', 'page': 'gsc_page'})
     
+
+#Cancellazione righe per sito
+conn = psycopg2.connect(
+    database=database, user=user, password=password, host=host, port= port
+)
+cur = conn.cursor()
+cur.execute(f"DELETE FROM wtforecast WHERE site = %s;", (site,))
+#print(cur.query)
+conn.commit()
+conn.close()
+
+
+# Push su db
 df.to_sql('wtforecast', engine, index=False, if_exists="append")
 #print(df)
