@@ -48,8 +48,8 @@ def file_6():
     cmd.communicate()
 
 
-create_all()
 #delete_all()
+create_all()
 
 file_1()
 file_2()
