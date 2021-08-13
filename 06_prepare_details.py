@@ -2,9 +2,10 @@ import pandas as pd
 import psycopg2 as pg
 import psycopg2
 from sqlalchemy import create_engine
-from functions_db.db_prepare_details import db_prepare_details
 
-db_prepare_details()
+#from functions_db.db_prepare_details import db_prepare_details
+#db_prepare_details()
+
 import toml
 data_toml = toml.load("config.toml")
 

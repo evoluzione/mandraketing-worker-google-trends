@@ -62,7 +62,7 @@ time.sleep(pausa_1)
 
 
 #Avvio primo terminale
-os.system(f"<gnome-terminal -x python3 {file_da_eseguire}")
+os.system(f"python3 {file_da_eseguire}")
 
 check_record_db()
 while numbers_kw != 0:
@@ -78,19 +78,19 @@ while numbers_kw != 0:
         check_record_db()
     except subprocess.CalledProcessError as e:
         print('nessun processo attivo')
-        os.system(f"gnome-terminal -x python3 {file_da_eseguire}")
+        os.system(f"python3 {file_da_eseguire}")
         print('YYYYYYYY-----processo eseguito')
         time.sleep(pausa_1)
         main_py_pids = list(map(int,subp.check_output(["pgrep", "-f", f"{file_da_eseguire}"]).split()))
 
         print('nessun processo attivo')
-        os.system(f"gnome-terminal -x python3 {file_da_eseguire1}")
+        os.system(f"python3 {file_da_eseguire1}")
         print('YYYYYYYY-----processo eseguito')
         time.sleep(pausa_1)
         main_py_pids1 = list(map(int,subp.check_output(["pgrep", "-f", f"{file_da_eseguire1}"]).split()))
 
         print('nessun processo attivo')
-        os.system(f"gnome-terminal -x python3 {file_da_eseguire2}")
+        os.system(f"python3 {file_da_eseguire2}")
         print('YYYYYYYY-----processo eseguito')
         time.sleep(pausa_1)
         main_py_pids2 = list(map(int,subp.check_output(["pgrep", "-f", f"{file_da_eseguire2}"]).split()))
@@ -126,7 +126,7 @@ while numbers_kw != 0:
     time.sleep(pausa_1)
 
     if number_of_python_process < max_num_processi:
-        os.system(f"gnome-terminal -x python3 {file_da_eseguire}")
+        os.system(f"python3 {file_da_eseguire}")
         print('YYYYYYYY-----processo eseguito')
         time.sleep(pausa_1)
         check_record_db()
@@ -136,7 +136,7 @@ while numbers_kw != 0:
         check_record_db()
 
     if number_of_python_process1 < max_num_processi:
-        os.system(f"gnome-terminal -x python3 {file_da_eseguire1}")
+        os.system(f"python3 {file_da_eseguire1}")
         print('YYYYYYYY-----processo eseguito')
         time.sleep(pausa_1)
         check_record_db()
@@ -146,7 +146,7 @@ while numbers_kw != 0:
         check_record_db()
 
     if number_of_python_process2 < max_num_processi:
-        os.system(f"gnome-terminal -x python3 {file_da_eseguire2}")
+        os.system(f"python3 {file_da_eseguire2}")
         print('YYYYYYYY-----processo eseguito')
         time.sleep(pausa_1)
         check_record_db()
