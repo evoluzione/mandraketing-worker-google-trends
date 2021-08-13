@@ -2,6 +2,12 @@ import subprocess as subp
 import subprocess
 
 
+def create_all():
+    file = 'functions_db/db_prepare_table.py'
+    print(f'{file}')
+    cmd = subprocess.Popen(['python3',f"{file}"])
+    cmd.communicate()    
+
 def delete_all():
     file = 'functions_db/db_delete_all_table.py'
     print(f'{file}')
@@ -42,6 +48,7 @@ def file_6():
     cmd.communicate()
 
 
+#create_all()
 #delete_all()
 
 file_1()
