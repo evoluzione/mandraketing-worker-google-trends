@@ -177,27 +177,3 @@ while numbers_kw != 0:
         check_record_db()
         pass
     
-    '''
-
-        dictionaryObject = result.to_dict()
-        #print(dictionaryObject)
-        #print(type(dictionaryObject))
-        dict_to_sql = dictionaryObject[f'{keyword}']
-        print(dict_to_sql)
-        #dict_to_sql = {re.sub("[a-z]*'", '', k): v for k, v in dict_to_sql.items()}
-        #dict_to_sql = {re.sub(")", '', k): v for k, v in dict_to_sql.items()}
-        types1 = [type(k) for k in dict_to_sql.keys()]
-        print(types1)
-        print(dict_to_sql)
-
-        conn = psycopg2.connect(
-            database=database, user=user, password=password, host=host, port= port
-        )
-        cur = conn.cursor()
-        cur.execute("UPDATE wtforecast SET gt_dates = %s WHERE site = %s AND keyword = %s;", (dict_to_sql, site_url, keyword,))
-        conn.commit()
-        conn.close()
-    except:
-        pass
-
-    '''

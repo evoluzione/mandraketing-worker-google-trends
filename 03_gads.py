@@ -290,28 +290,3 @@ if __name__ == '__main__':
             print('pausa 30 per blocco')
             time.sleep(30)
             pass
-        '''
-            my_file = 'output_data/6_google_ads_export-Volume.csv'
-            isfile = os.path.isfile(my_file)
-            #print(isfile)
-            if isfile == False:
-                # path exists
-                kw_sv_df.to_csv(my_file, index=False, encoding='utf-8', sep='\t', decimal=',')
-            else:
-                kw_sv_df.to_csv(my_file, mode='a', index=False, header=False, encoding='utf-8', sep='\t', decimal=',')
-            print('pausa 10 secondi')
-            time.sleep(10)
-            check_record_db()
-        except:
-            for kw in keywords_list_db:
-                conn = sqlite3.connect(db_name_keyword)
-                c = conn.cursor()
-                c.execute("Update KEYWORDS_LIST set CHECKING = 0 where KEYWORDS = ?",(kw,))
-                conn.commit()
-                check_record_db()
-                
-            print('pausa 35 secondi')
-            time.sleep(35)
-            check_record_db()
-            '''
-
