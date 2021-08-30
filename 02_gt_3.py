@@ -91,8 +91,8 @@ while numbers_kw != 0:
     #print(kw_list)
 
     try:
-        #pytrends =TrendReq(hl='it-IT', tz=360, timeout=(10,25), proxies=proxies, retries=5, backoff_factor=0.1)
-        pytrends =TrendReq(hl='it-IT', tz=360, timeout=(10,25), retries=5, backoff_factor=0.1)
+        pytrends =TrendReq(hl='it-IT', tz=360, timeout=(10,25), proxies=proxies, retries=5, backoff_factor=0.1)
+        #pytrends =TrendReq(hl='it-IT', tz=360, timeout=(10,25), retries=5, backoff_factor=0.1)
         #print('pytrend ok')
     except:
         conn = psycopg2.connect(database=database, user=user, password=password, host=host, port= port)

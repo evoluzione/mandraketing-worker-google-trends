@@ -1,14 +1,10 @@
-import subprocess as subp
-import subprocess
-import pandas as pd
-import time, os, datetime, subprocess, psutil, sqlite3
-
-import psycopg2
-from datetime import timedelta, datetime, date
-import pandas as pd
-import psycopg2 as pg
+import psutil
+import os
 from sqlalchemy import create_engine
+import psycopg2
+import pandas as pd
 from functions_db.sqlite_trends_prepare import create_db_and_folder
+import subprocess
 
 import toml
 data_toml = toml.load("config.toml")
@@ -26,6 +22,14 @@ password = data_toml['password']
 port= data_toml['port']
 postgre_complete_url = data_toml['postgre_complete_url']
 
+max_num_processi = 3
+pausa_1 = 1
+pausa_2 = 2
+pausa_3 = 3
+file_da_eseguire1 = '02_gt_0.py'
+file_da_eseguire2 = '02_gt_1.py'
+file_da_eseguire3 = '02_gt_2.py'
+
 
 def check_record_db():
     conn = psycopg2.connect(
@@ -42,121 +46,30 @@ def check_record_db():
     conn.commit()
     conn.close()
 
-#Get a list of all processes with a certain name
-def get_pid(name):
-    return list(map(int,subp.check_output(["pidof", "-c", name]).split()))
+def is_running(script):
+    for q in psutil.process_iter():
+        if q.name().startswith('python'):
+            if len(q.cmdline())>1 and script in q.cmdline()[1] and q.pid !=os.getpid():
+                print("'{}' Process is already running".format(script))
+                return True
 
-max_num_processi = 1
-pausa_1 = 1
-pausa_2 = 2
-pausa_3 = 3
-file_da_eseguire = '02_gt_0.py'
-file_da_eseguire1 = '02_gt_1.py'
-file_da_eseguire2 = '02_gt_2.py'
+    return False
 
-
-a = 1
-i = 0
-print("al mio segnale scatenate i processi :D")
-time.sleep(pausa_1)
-
-
-#Avvio primo terminale
-os.system(f"python3 {file_da_eseguire}")
 
 check_record_db()
+max_num_processi_list = list(range(1, max_num_processi+1))
 while numbers_kw != 0:
-    #Get a list of all pids for python3 processes
-    python_pids = get_pid('python3')
-    python_pids1 = get_pid('python3')
-    python_pids2 = get_pid('python3')
-    #Get a list of all pids for processes with "main.py" argument
-    try:
-        main_py_pids = list(map(int,subp.check_output(["pgrep", "-f", f"{file_da_eseguire}"]).split()))
-        main_py_pids = list(map(int,subp.check_output(["pgrep", "-f", f"{file_da_eseguire1}"]).split()))
-        main_py_pids = list(map(int,subp.check_output(["pgrep", "-f", f"{file_da_eseguire2}"]).split()))
+    print('---------------------------------')
+    print(max_num_processi_list)
+    print(type(max_num_processi_list))
+    for i in max_num_processi_list:
+        print(i)
         check_record_db()
-    except subprocess.CalledProcessError as e:
-        print('nessun processo attivo')
-        os.system(f"python3 {file_da_eseguire}")
-        print('YYYYYYYY-----processo eseguito')
-        time.sleep(pausa_1)
-        main_py_pids = list(map(int,subp.check_output(["pgrep", "-f", f"{file_da_eseguire}"]).split()))
-
-        print('nessun processo attivo')
-        os.system(f"python3 {file_da_eseguire1}")
-        print('YYYYYYYY-----processo eseguito')
-        time.sleep(pausa_1)
-        main_py_pids1 = list(map(int,subp.check_output(["pgrep", "-f", f"{file_da_eseguire1}"]).split()))
-
-        print('nessun processo attivo')
-        os.system(f"python3 {file_da_eseguire2}")
-        print('YYYYYYYY-----processo eseguito')
-        time.sleep(pausa_1)
-        main_py_pids2 = list(map(int,subp.check_output(["pgrep", "-f", f"{file_da_eseguire2}"]).split()))
-        check_record_db()
-    
-    #main_py_pids = list(map(int,subp.check_output(["pgrep", "-f", f"{file_da_eseguire}"]).split()))
-    python_main_py_pid = set(python_pids).intersection(main_py_pids)
-    #print(python_pids)
-    print(main_py_pids)
-    #print(python_main_py_pid)
-    number_of_python_process = len(main_py_pids)
-    print(number_of_python_process)
-    check_record_db()
-
-    #main_py_pids = list(map(int,subp.check_output(["pgrep", "-f", f"{file_da_eseguire}"]).split()))
-    python_main_py_pid1 = set(python_pids1).intersection(main_py_pids1)
-    #print(python_pids)
-    print(main_py_pids1)
-    #print(python_main_py_pid)
-    number_of_python_process1 = len(main_py_pids1)
-    print(number_of_python_process1)
-    check_record_db()
-
-    #main_py_pids = list(map(int,subp.check_output(["pgrep", "-f", f"{file_da_eseguire}"]).split()))
-    python_main_py_pid2 = set(python_pids2).intersection(main_py_pids2)
-    #print(python_pids)
-    print(main_py_pids2)
-    #print(python_main_py_pid)
-    number_of_python_process2 = len(main_py_pids2)
-    print(number_of_python_process2)
-    check_record_db()
-
-    time.sleep(pausa_1)
-
-    if number_of_python_process < max_num_processi:
-        os.system(f"python3 {file_da_eseguire}")
-        print('YYYYYYYY-----processo eseguito')
-        time.sleep(pausa_1)
-        check_record_db()
-    else:
-        print('XXXXXXX----raggiunto il numero massimo di processi')
-        time.sleep(pausa_3)
-        check_record_db()
-
-    if number_of_python_process1 < max_num_processi:
-        os.system(f"python3 {file_da_eseguire1}")
-        print('YYYYYYYY-----processo eseguito')
-        time.sleep(pausa_1)
-        check_record_db()
-    else:
-        print('XXXXXXX----raggiunto il numero massimo di processi')
-        time.sleep(pausa_3)
-        check_record_db()
-
-    if number_of_python_process2 < max_num_processi:
-        os.system(f"python3 {file_da_eseguire2}")
-        print('YYYYYYYY-----processo eseguito')
-        time.sleep(pausa_1)
-        check_record_db()
-    else:
-        print('XXXXXXX----raggiunto il numero massimo di processi')
-        time.sleep(pausa_3)
-        check_record_db()
-    
-
-    check_record_db()
-    print('-----------------------FINITO')
+        if numbers_kw != 0:
+            if not is_running(f'02_gt_{i}'):
+                cmd = subprocess.Popen(['python3',f'02_gt_{i}.py'])
+                cmd.communicate()
+                print("file_da_eseguire")
+                check_record_db()
 
 
