@@ -55,6 +55,7 @@ def select_keyword():
     print(single_kw_list)
     cur.execute("Update wtforecast set gt_parsed = 1 where KEYWORD = %s AND site = %s", (keyword, site_url,))
     conn.commit()
+    cur.close()
     conn.close()
 
 def check_record_db():
@@ -70,6 +71,7 @@ def check_record_db():
     numbers_kw = len(data)
     print(numbers_kw)
     conn.commit()
+    cur.close()
     conn.close()
 
 check_record_db()
@@ -150,6 +152,7 @@ while numbers_kw != 0:
     cur.execute(f"UPDATE wtforecast SET last_trend = {last_trend} WHERE site = %s AND keyword = %s;", (site_url, keyword,))
     #print(cur.query)
     conn.commit()
+    cur.close()
     conn.close()
 
 
@@ -168,6 +171,7 @@ while numbers_kw != 0:
         cur.execute(f"UPDATE wtforecast SET gt_dates = '{dict_to_sql}' WHERE site = %s AND keyword = %s;", (site_url, keyword,))
         #print(cur.query)
         conn.commit()
+        cur.close()
         conn.close()
         check_record_db()
 
