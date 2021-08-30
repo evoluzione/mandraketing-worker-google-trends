@@ -35,6 +35,7 @@ def select_keyword():
         keywords_list_db.append(keyword)
         cur.execute("Update wtforecast set ga_parsed = 1 where KEYWORD = %s AND site = %s", (keyword,site_url,))
     conn.commit()
+    cur.close()
     conn.close()
 
 def check_record_db():
@@ -48,6 +49,7 @@ def check_record_db():
     numbers_kw = len(data)
     print(numbers_kw)
     conn.commit()
+    cur.close()
     conn.close()
 
 locations_id = '2380' #Italia IT
@@ -225,6 +227,7 @@ if __name__ == '__main__':
                     cur.execute("UPDATE wtforecast SET ga_parsed = 0 WHERE keyword = %s AND site = %s", (x,site_url,))
                 
                 conn.commit()
+                cur.close()
                 conn.close()
                 check_record_db()
             #kw_sv_df = pd.json_normalize(kw_sv_df2['Monthly Searches'])
@@ -280,6 +283,7 @@ if __name__ == '__main__':
 
                 cur.execute(f"UPDATE wtforecast SET ga_search_volume = {search_volume}, ga_competition = {competition}, ga_average_cpc = {average_cpc} WHERE keyword = %s AND site = '{site_url}'", (keyword,))
                 conn.commit()
+                cur.close()
                 conn.close()
 
 
