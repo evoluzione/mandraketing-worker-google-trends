@@ -143,7 +143,7 @@ st.write('Trend Attuali')
 df_last_trend = df_general_table.copy()
 df_last_trend = df_last_trend[['keyword','ga_search_volume','ga_competition','gsc_avg_pos','gsc_sum_imp','gsc_sum_clic','last_trend','gsc_page']].copy()
 #df_last_trend
-df_last_trend.sort_values(by=['ga_search_volume'])
+df_last_trend = df_last_trend.sort_values(by=['ga_search_volume'])
 st.dataframe(data=df_last_trend, width=1500, height=768)
 
 
@@ -165,7 +165,7 @@ st.write('Trend Futuri')
 df_last_forecast = df_general_table.copy()
 df_last_forecast = df_last_forecast[['keyword','ga_search_volume','ga_competition','gsc_avg_pos','gsc_sum_imp','gsc_sum_clic','last_forecast','gsc_page']].copy()
 #df_last_forecast
-df_last_forecast.sort_values(by=['ga_search_volume'])
+df_last_forecast = df_last_forecast.sort_values(by=['ga_search_volume'])
 st.dataframe(data=df_last_forecast, width=1500, height=768)
 
 def get_table_download_link_csv(df_last_forecast):
