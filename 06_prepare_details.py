@@ -60,7 +60,6 @@ del df_last_trend['forecast_dates']
 #engine = create_engine(postgre_complete_url)
 #df_last_trend.to_sql('wtforecastdetails', engine, index=False, if_exists="append")
 
-time.sleep(10)
 # creazione df forecasr
 #engine_table = create_engine(postgre_complete_url)
 #df_forecast_table = pd.read_sql_query(f"SELECT * FROM wtforecast WHERE site = '{site_url}';",con=engine_table)
