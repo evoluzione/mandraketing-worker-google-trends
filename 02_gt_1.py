@@ -108,6 +108,7 @@ while numbers_kw != 0:
     #print(data)
     if not data.empty:
         # data.drop(labels=['isPartial'], axis='columns')
+        data = data[data.isPartial != "True"]
         data = data.drop(labels=['isPartial'],axis='columns')
         dataset.append(data)
         check_record_db()
